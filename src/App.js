@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+
 import './App.css';
 
 function App() {
@@ -36,6 +37,8 @@ const nayokNames=nayoks.map(nayok=>nayok);
     <div className="App">
       <header className="App-header">
         <p>I am a react person</p>
+        <Counter></Counter>
+        <Users></Users>
         <ul>
         {nayoks.map(nayok => <li>{nayok}</li>)}
          {
@@ -114,6 +117,51 @@ function Friends(props){
 }
 
 
+function Counter(){
+  const [count, setCount]= useState(0);
+  
+  const handleIncrease = () => setCount(count+1);
+ 
+  //[result, set Result]
+  return(
+    <div> 
+      <h1>Count: {count}</h1>
+      <button onClick={()=>setCount(count-1)}>Decrease</button>
+      <button onClick={()=>setCount(count+1)}>Increase</button>
+    </div>
+  )
+}
+
+function Users(){
+  const [users,setUsers]=useState([]);
+  useEffect(()=>{
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res=>res.json())
+    .then(data => setUsers(data));
+  },[])
+
+  const userStyle={
+    color:"white",
+    backgroundColor:'goldenrod',
+    margin:'10px',
+    padding:'20px',
+    border:'5px solid blue'
+
+  }
+  return(
+    <div style={userStyle}>
+      <h3>Dynamic users:{users.length}</h3>
+      <ul>
+        {
+        users.map(user => <li>{user.name}</li>)
+        }
+        {
+          users.map(user => <li>{user.email}</li>)
+        }
+      </ul>
+    </div>
+  )
+}
 //its a component
 function Person(props){
   
